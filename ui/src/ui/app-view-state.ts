@@ -12,6 +12,7 @@ import type {
   AgentsListResult,
   ChannelsStatusSnapshot,
   ConfigSnapshot,
+  CostUsageSummary,
   CronJob,
   CronRunLogEntry,
   CronStatus,
@@ -135,6 +136,8 @@ export type AppViewState = {
   debugCallParams: string;
   debugCallResult: string | null;
   debugCallError: string | null;
+  usageSummary: CostUsageSummary | null;
+  usageLoading: boolean;
   logsLoading: boolean;
   logsError: string | null;
   logsFile: string | null;

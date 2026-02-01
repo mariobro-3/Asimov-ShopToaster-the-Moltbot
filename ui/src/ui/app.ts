@@ -11,6 +11,7 @@ import type {
   AgentsListResult,
   ConfigSnapshot,
   ConfigUiHints,
+  CostUsageSummary,
   CronJob,
   CronRunLogEntry,
   CronStatus,
@@ -226,6 +227,9 @@ export class OpenClawApp extends LitElement {
   @state() debugCallParams = "{}";
   @state() debugCallResult: string | null = null;
   @state() debugCallError: string | null = null;
+
+  @state() usageSummary: CostUsageSummary | null = null;
+  @state() usageLoading = false;
 
   @state() logsLoading = false;
   @state() logsError: string | null = null;

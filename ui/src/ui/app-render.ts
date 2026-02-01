@@ -22,6 +22,7 @@ import type { ChatQueueItem, CronFormState } from "./ui-types";
 import { parseAgentSessionKey } from "../../../src/routing/session-key.js";
 import { refreshChatAvatar } from "./app-chat";
 import { renderChatControls, renderTab, renderThemeToggle } from "./app-render.helpers";
+import { formatTokenCount } from "./format";
 import { loadChannels } from "./controllers/channels";
 import { loadChatHistory } from "./controllers/chat";
 import {
@@ -146,6 +147,15 @@ export function renderApp(state: AppViewState) {
             <span>Health</span>
             <span class="mono">${state.connected ? "OK" : "Offline"}</span>
           </div>
+          ${state.usageSummary
+            ? html`<div class="pill" title="Token usage and cost (last ${state.usageSummary.days} days)">
+                <span>Tokens</span>
+                <span class="mono">${formatTokenCount(state.usageSummary.totals.totalTokens)}</span>
+                <span class="pill-divider">|</span>
+                <span>Cost</span>
+                <span class="mono">$${state.usageSummary.totals.totalCost.toFixed(2)}</span>
+              </div>`
+            : nothing}
           ${renderThemeToggle(state)}
         </div>
       </header>

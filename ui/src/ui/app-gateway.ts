@@ -21,6 +21,7 @@ import {
 } from "./controllers/exec-approval";
 import { loadNodes } from "./controllers/nodes";
 import { loadSessions } from "./controllers/sessions";
+import { loadUsage } from "./controllers/usage";
 import { GatewayBrowserClient } from "./gateway";
 
 type GatewayHost = {
@@ -133,6 +134,7 @@ export function connectGateway(host: GatewayHost) {
       void loadAgents(host as unknown as OpenClawApp);
       void loadNodes(host as unknown as OpenClawApp, { quiet: true });
       void loadDevices(host as unknown as OpenClawApp, { quiet: true });
+      void loadUsage(host as unknown as OpenClawApp);
       void refreshActiveTab(host as unknown as Parameters<typeof refreshActiveTab>[0]);
     },
     onClose: ({ code, reason }) => {
