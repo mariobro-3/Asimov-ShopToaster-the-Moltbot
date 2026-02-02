@@ -7,6 +7,8 @@ import {
   stopNodesPolling,
   startDebugPolling,
   stopDebugPolling,
+  startUsagePolling,
+  stopUsagePolling,
 } from "./app-polling";
 import { observeTopbar, scheduleChatScroll, scheduleLogsScroll } from "./app-scroll";
 import {
@@ -31,6 +33,7 @@ type LifecycleHost = {
   logsEntries: unknown[];
   popStateHandler: () => void;
   topbarObserver: ResizeObserver | null;
+  connected: boolean;
 };
 
 export function handleConnected(host: LifecycleHost) {
@@ -42,6 +45,7 @@ export function handleConnected(host: LifecycleHost) {
   window.addEventListener("popstate", host.popStateHandler);
   connectGateway(host as unknown as Parameters<typeof connectGateway>[0]);
   startNodesPolling(host as unknown as Parameters<typeof startNodesPolling>[0]);
+  startUsagePolling(host as unknown as Parameters<typeof startUsagePolling>[0]);
   if (host.tab === "logs") {
     startLogsPolling(host as unknown as Parameters<typeof startLogsPolling>[0]);
   }
@@ -59,6 +63,7 @@ export function handleDisconnected(host: LifecycleHost) {
   stopNodesPolling(host as unknown as Parameters<typeof stopNodesPolling>[0]);
   stopLogsPolling(host as unknown as Parameters<typeof stopLogsPolling>[0]);
   stopDebugPolling(host as unknown as Parameters<typeof stopDebugPolling>[0]);
+  stopUsagePolling(host as unknown as Parameters<typeof stopUsagePolling>[0]);
   detachThemeListener(host as unknown as Parameters<typeof detachThemeListener>[0]);
   host.topbarObserver?.disconnect();
   host.topbarObserver = null;

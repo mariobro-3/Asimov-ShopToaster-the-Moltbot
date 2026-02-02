@@ -2,12 +2,15 @@ import type { OpenClawApp } from "./app";
 import { loadDebug } from "./controllers/debug";
 import { loadLogs } from "./controllers/logs";
 import { loadNodes } from "./controllers/nodes";
+import { loadUsage } from "./controllers/usage";
 
 type PollingHost = {
   nodesPollInterval: number | null;
   logsPollInterval: number | null;
   debugPollInterval: number | null;
+  usagePollInterval: number | null;
   tab: string;
+  connected: boolean;
 };
 
 export function startNodesPolling(host: PollingHost) {
@@ -50,4 +53,19 @@ export function stopDebugPolling(host: PollingHost) {
   if (host.debugPollInterval == null) return;
   clearInterval(host.debugPollInterval);
   host.debugPollInterval = null;
+}
+
+export function startUsagePolling(host: PollingHost) {
+  if (host.usagePollInterval != null) return;
+  // Poll usage every 60 seconds
+  host.usagePollInterval = window.setInterval(() => {
+    if (!host.connected) return;
+    void loadUsage(host as unknown as OpenClawApp);
+  }, 60_000);
+}
+
+export function stopUsagePolling(host: PollingHost) {
+  if (host.usagePollInterval == null) return;
+  clearInterval(host.usagePollInterval);
+  host.usagePollInterval = null;
 }
